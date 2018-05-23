@@ -7,6 +7,7 @@ const LimitedParallelStream = require('./limitedParallelStream');
 
 fs.createReadStream(process.argv[2])
   .pipe(split())
+  // new LimitedParallelStream(concurrency, userTransformFunc)
   .pipe(new LimitedParallelStream(2, (url, enc, push, done) => {
     if(!url) return done();
     request.head(url, (err, response) => {
@@ -15,5 +16,4 @@ fs.createReadStream(process.argv[2])
     });
   }))
   .pipe(fs.createWriteStream('results.txt'))
-  .on('finish', () => console.log('All urls were checked'))
-;
+  .on('finish', () => console.log('All urls were checked'));
