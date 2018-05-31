@@ -27,7 +27,7 @@ function createLoggingWritable(writableOrig) {
     });
   };
 
-  /* Preserve the  */
+  /* Preserve the  events on the original prototype */
   LoggingWritable.prototype.on = function() {
     return this.writableOrig.on
       .apply(this.writableOrig, arguments);
