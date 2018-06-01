@@ -1,7 +1,7 @@
 "use strict";
 
 /*
-Create a wrapper around an array creating a virtual (since it never contains data) array.
+Create a wrapper around an array creating a virtual array (Virtual since it never contains data).
 The get trap intercepts indexing and returns an even number for the given index (just doubling it really)
 The has trap intercepts the *in* operator and checks if the index is even
 */
