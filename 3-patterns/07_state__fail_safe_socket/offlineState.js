@@ -27,7 +27,8 @@ module.exports = class OfflineState {
   One call to this method makes the class try establishing a connection every 500ms.
   When successing change the state on FailsafeSocket to online.
   */
-  activate() {     
+  activate() {
+    console.log("Running activate...");     
     const retry = () => {
       setTimeout(() => this.activate(), 500); // Every call sets up a recursive call after 500ms
     };
