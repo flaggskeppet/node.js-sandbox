@@ -22,7 +22,8 @@ module.exports = class ZmqMiddlewareManager {
       data: data
     };
 
-    // Process the OUTBOUND message using the filters in outboundMiddleware list and pass the message to the socket.
+    // When sending process the OUTBOUND message using the filters in outboundMiddleware 
+    // list. The last argument is the finish function.
     this.executeMiddleware(this.outboundMiddleware, message,
       () => {
         this.socket.send(message.data);
@@ -33,21 +34,22 @@ module.exports = class ZmqMiddlewareManager {
   // Append new middleware to the pipelines.
   use(middleware) {
     if (middleware.inbound) {
-      this.inboundMiddleware.push(middleware.inbound);
+      this.inboundMiddleware.push(middleware.inbound); // Append inbound function to the array
     }
     if (middleware.outbound) {
-      this.outboundMiddleware.unshift(middleware.outbound);
+      this.outboundMiddleware.unshift(middleware.outbound); // Prepend outbound function to the array
     }
   }
 
-  // Execute all middleware functions
+  // Execute all middleware functions and the finish function at last
   executeMiddleware(middleware, arg, finish) {
-    function iterator(index) {
+    function iterator(index) { // Internal function
       if (index === middleware.length) {
-        return finish && finish();
+        return finish && finish(); 
       }
       
-      // Executes a middlewarefunction. They all receive the same arguments
+      // Executes a middleware function. They all receive the same arguments
+      // wich is a way to propagate data from one middleware to the next.
       middleware[index].call(this, arg, err => {
         if (err) {
           return console.log('There was an error: ' + err.message);
@@ -56,6 +58,6 @@ module.exports = class ZmqMiddlewareManager {
       });
     }
 
-    iterator.call(this, 0);
+    iterator.call(this, 0); // Start off by calling the internal function at first index.
   }
 };
