@@ -1,11 +1,11 @@
-var http = require("http");
-var fs = require("fs");
-var zlib = require("zlib");
-var path = require("path");
-var file = process.argv[2];
-var server = process.argv[3];
+const http = require("http");
+const fs = require("fs");
+const zlib = require("zlib");
+const path = require("path");
+const file = process.argv[2];
+const server = process.argv[3];
 
-var options = {
+const options = {
     hostname: server,
     port: 3000,
     path: '/',
@@ -17,7 +17,7 @@ var options = {
     }
 };
 
-var req = http.request(options, function(result){
+const req = http.request(options, function(result){
     console.log('Server response: ' + result.statusCode);
 });
 
